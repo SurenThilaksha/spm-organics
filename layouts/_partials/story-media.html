@@ -1,0 +1,15 @@
+{{- /* Story visual: your own photo if story.image is set, otherwise a logo panel. Context: dict "id" "x" */ -}}
+{{- $b := hugo.Data.business -}}
+{{- with $b.story.image -}}
+<figure class="story-media reveal">
+  {{ partial "img.html" (dict "src" . "alt" $b.story.image_alt "sizes" "(max-width: 900px) 100vw, 50vw") }}
+</figure>
+{{- else -}}
+<figure class="story-media story-brand reveal">
+  {{ partial "img.html" (dict "src" "images/curry-leaves-tree.jpg" "alt" "" "sizes" "(max-width: 900px) 100vw, 50vw" "class" "story-brand-bg") }}
+  <div class="story-brand-inner">
+    {{ partial "logo.html" (dict "id" (printf "story-%s" $.id) "class" "story-badge" "light" true "tagline" $b.tagline) }}
+    <figcaption>{{ $b.motto }}</figcaption>
+  </div>
+</figure>
+{{- end -}}

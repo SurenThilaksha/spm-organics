@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+<section class="page-hero">
+  <div class="container">
+    <p class="kicker">{{ $b.name }}</p>
+    <h1>{{ .Title }}</h1>
+    <p class="lead">{{ .Description }}</p>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="container">
+    <div class="cards">
+      {{ range .Pages.ByWeight }}{{ partial "product-card.html" . }}{{ end }}
+      <article class="card card-soon reveal">
+        <div class="card-soon-inner">
+          {{ partial "icon.html" "leaf" }}
+          <h3>More pure products coming soon</h3>
+          <p>We're preparing more single-ingredient Sri Lankan favourites. Want something specific?</p>
+          <a class="link-arrow" href="{{ "/contact/" | relURL }}">Tell us {{ partial "icon.html" "arrow" }}</a>
+        </div>
+      </article>
+    </div>
+    <div class="shipping shipping-inline">
+      {{ range $b.shipping }}
+      <article class="ship">{{ partial "icon.html" .icon }}<div><h3>{{ .title }}</h3><p>{{ .text }}</p></div></article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}

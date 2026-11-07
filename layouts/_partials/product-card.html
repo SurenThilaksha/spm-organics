@@ -1,0 +1,17 @@
+{{- $p := . -}}
+{{- $v := $p.Params.variants -}}
+{{- $mid := index $v (cond (gt (len $v) 1) 1 0) -}}
+<article class="card reveal">
+  <a class="card-media" href="{{ $p.RelPermalink }}" aria-label="{{ $p.Title }}">
+    {{ partial "pack.html" (dict "id" (printf "card-%s" $p.File.ContentBaseName) "name" $p.Title "size" $mid.size "color" $p.Params.pack_color) }}
+  </a>
+  <div class="card-body">
+    <p class="card-local">{{ $p.Params.local_name }}</p>
+    <h3><a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a></h3>
+    <p>{{ $p.Params.summary }}</p>
+    <div class="card-foot">
+      <span class="from">From {{ partial "price.html" (index $v 0) }}</span>
+      <a class="btn btn-primary btn-sm" href="{{ $p.RelPermalink }}">Choose size {{ partial "icon.html" "arrow" }}</a>
+    </div>
+  </div>
+</article>

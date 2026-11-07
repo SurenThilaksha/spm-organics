@@ -1,0 +1,157 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+{{ $products := where site.RegularPages "Section" "products" }}
+{{ $hero := index (where $products "Params.featured" true) 0 | default (index $products 0) }}
+
+<section class="hero">
+  <div class="hero-media">
+    {{ partial "img.html" (dict "src" $b.hero_image "alt" "Fresh curry leaves on the branch" "sizes" "100vw" "eager" true) }}
+  </div>
+  <div class="container hero-grid">
+    <div class="hero-content">
+      {{ partial "logo.html" (dict "id" "hero" "class" "hero-badge" "light" true "tagline" $b.tagline) }}
+      <h1>The pure taste of<br><em>Sri Lankan curry leaves</em></h1>
+      <p class="lead">{{ $b.intro }}</p>
+      <div class="hero-cta">
+        <a class="btn btn-light" href="{{ "/products/" | relURL }}">{{ partial "icon.html" "cart" }} Shop now</a>
+        <a class="btn btn-glass" href="{{ "/about/" | relURL }}">Our story</a>
+      </div>
+    </div>
+    {{ with $hero }}
+    <a class="hero-pack" href="{{ .RelPermalink }}">
+      {{ partial "pack.html" (dict "id" "hero-pack" "name" .Title "size" (index .Params.variants 1).size "color" .Params.pack_color) }}
+      <span class="hero-pack-tag"><strong>{{ .Title }}</strong><small>From {{ partial "price.html" (index .Params.variants 0) }}</small></span>
+    </a>
+    {{ end }}
+  </div>
+  <div class="container">
+    <ul class="trust">
+      {{ range $b.trust }}<li>{{ partial "icon.html" .icon }} {{ .label }}</li>{{ end }}
+    </ul>
+  </div>
+</section>
+
+{{ with $hero }}
+<section class="section feature">
+  <div class="container feature-grid">
+    <div class="feature-media reveal">
+      <div class="feature-pack">{{ partial "pack.html" (dict "id" "feat-pack" "name" .Title "size" (index .Params.variants 1).size "color" .Params.pack_color) }}</div>
+      <div class="feature-photo">{{ partial "img.html" (dict "src" .Params.photo "alt" "A sprig of fresh curry leaves" "sizes" "(max-width: 900px) 60vw, 25vw") }}</div>
+    </div>
+    <div class="feature-body reveal">
+      <p class="kicker">Our signature product</p>
+      <h2>{{ .Title }}</h2>
+      <p class="local">{{ .Params.local_name }}</p>
+      <div class="prose">{{ .Summary }}</div>
+      <ul class="chips">{{ range .Params.badges }}<li>{{ partial "icon.html" "check" }} {{ . }}</li>{{ end }}</ul>
+      {{ partial "buy-box.html" . }}
+      <a class="link-arrow" href="{{ .RelPermalink }}">Ingredients, storage &amp; how to use {{ partial "icon.html" "arrow" }}</a>
+    </div>
+  </div>
+</section>
+{{ end }}
+
+<section class="section section-cream" id="benefits">
+  <div class="container">
+    <header class="section-head">
+      <p class="kicker">Why curry leaves</p>
+      <h2>A small leaf with a <em>big place</em> in our kitchens</h2>
+      <p>Loved for generations in Sri Lankan cooking — now easy to enjoy every day, wherever you live.</p>
+    </header>
+    <div class="benefits">
+      {{ range $b.benefits }}
+      <article class="benefit reveal">
+        <span class="benefit-icon">{{ partial "icon.html" .icon }}</span>
+        <h3>{{ .title }}</h3>
+        <p>{{ .text }}</p>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark process-section" id="process">
+  <div class="process-bg">{{ partial "img.html" (dict "src" "images/curry-leaves-tree.jpg" "alt" "" "sizes" "100vw") }}</div>
+  <div class="container">
+    <header class="section-head">
+      <p class="kicker">From tree to pouch</p>
+      <h2>Made slowly, <em>the traditional way</em></h2>
+    </header>
+    <ol class="process">
+      {{ range $i, $s := $b.process }}
+      <li class="reveal"><span class="process-n">{{ printf "%02d" (add $i 1) }}</span><h3>{{ $s.title }}</h3><p>{{ $s.text }}</p></li>
+      {{ end }}
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="uses">
+  <div class="container uses-grid">
+    <div class="uses-head reveal">
+      <p class="kicker">How to use</p>
+      <h2>One spoon, <em>endless dishes</em></h2>
+      <p class="muted">A little goes a long way. Start with ½–1 teaspoon and adjust to taste.</p>
+      <a class="btn btn-outline" href="{{ "/products/" | relURL }}">Shop curry leaves powder</a>
+    </div>
+    <div class="uses">
+      {{ range $b.uses }}
+      <article class="use reveal"><h3>{{ .title }}</h3><p>{{ .text }}</p></article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="order">
+  <div class="container">
+    <header class="section-head">
+      <p class="kicker">Ordering is easy</p>
+      <h2>Order online, <em>delivered to your door</em></h2>
+    </header>
+    <ol class="steps">
+      {{ range $i, $s := $b.order_steps }}
+      <li class="reveal"><span>{{ add $i 1 }}</span><h3>{{ $s.title }}</h3><p>{{ $s.text }}</p></li>
+      {{ end }}
+    </ol>
+    <div class="shipping">
+      {{ range $b.shipping }}
+      <article class="ship reveal">{{ partial "icon.html" .icon }}<div><h3>{{ .title }}</h3><p>{{ .text }}</p></div></article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section story-teaser">
+  <div class="container story-grid">
+    {{ partial "story-media.html" (dict "id" "home") }}
+    <div class="reveal">
+      <p class="kicker">Our story</p>
+      <h2>{{ $b.story.heading }}</h2>
+      <p>{{ index $b.story.paragraphs 0 }}</p>
+      <a class="link-arrow" href="{{ "/about/" | relURL }}">Read our story {{ partial "icon.html" "arrow" }}</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="faq">
+  <div class="container narrow">
+    <header class="section-head">
+      <p class="kicker">Questions</p>
+      <h2>Frequently <em>asked</em></h2>
+    </header>
+    <div class="faq">
+      {{ range $b.faq }}
+      <details class="reveal"><summary>{{ .q }}</summary><p>{{ .a }}</p></details>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container cta-inner reveal">
+    {{ partial "logo.html" (dict "id" "cta" "class" "cta-badge" "light" true "tagline" $b.tagline) }}
+    <h2>{{ $b.motto }}</h2>
+    <p>Bring home the aroma of fresh curry leaves — in Sri Lanka or anywhere in the world.</p>
+    <a class="btn btn-light" href="{{ "/products/" | relURL }}">{{ partial "icon.html" "cart" }} Shop now</a>
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "spm-organics",
+      "runtimeExecutable": "hugo",
+      "runtimeArgs": ["server", "--source", "C:/Users/User/Documents/spm-organics", "--port", "1314", "--disableFastRender"],
+      "port": 1314
+    }
+  ]
+}

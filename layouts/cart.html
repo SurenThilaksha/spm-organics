@@ -1,0 +1,78 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+{{ $o := $b.ordering }}
+<section class="page-hero page-hero-sm">
+  <div class="container">
+    <h1>{{ .Title }}</h1>
+    <p class="lead">No account needed — send your order by WhatsApp or email and we'll confirm the total.</p>
+  </div>
+</section>
+
+<section class="section section-tight checkout" data-checkout>
+  <div class="container checkout-grid">
+    <form class="panel form" id="order-form" novalidate>
+      <h2><span class="step-n">1</span> Your details</h2>
+      <div class="field-row">
+        <label>Full name<input name="name" required autocomplete="name"></label>
+        <label>WhatsApp / phone<input name="phone" type="tel" required autocomplete="tel" placeholder="+94 7X XXX XXXX"></label>
+      </div>
+      <label>Email <span class="opt">(for your order confirmation)</span><input name="email" type="email" autocomplete="email"></label>
+
+      <h2><span class="step-n">2</span> Delivery address</h2>
+      <label>Country
+        <select name="country" data-country autocomplete="country-name">
+          <option value="Sri Lanka">Sri Lanka</option>
+          <option value="other">Other country…</option>
+        </select>
+      </label>
+      <label data-country-other hidden>Country name<input name="country_other" autocomplete="country-name"></label>
+      <label>Address<textarea name="address" rows="2" required autocomplete="street-address"></textarea></label>
+      <div class="field-row">
+        <label>City / town<input name="city" required autocomplete="address-level2"></label>
+        <label>Postal code <span class="opt">(optional)</span><input name="postcode" autocomplete="postal-code"></label>
+      </div>
+
+      <h2><span class="step-n">3</span> Payment</h2>
+      <div class="pay-options">
+        {{ range $i, $m := $o.payment_methods }}
+        <label class="pay{{ if $m.disabled }} is-disabled{{ end }}" data-pay="{{ $m.id }}">
+          <input type="radio" name="payment" value="{{ $m.label }}" {{ if $m.disabled }}disabled{{ else if eq $i 0 }}checked{{ end }}>
+          <span><strong>{{ $m.label }}</strong><small>{{ $m.note }}</small></span>
+        </label>
+        {{ end }}
+      </div>
+      <label>Order notes <span class="opt">(optional)</span><textarea name="notes" rows="2" placeholder="Delivery instructions, gift message…"></textarea></label>
+
+      <div class="order-send">
+        {{ if $b.contact.enabled }}
+        <button class="btn btn-primary btn-grow" type="submit" value="whatsapp" data-needs-items>{{ partial "icon.html" "whatsapp" }} Send order on WhatsApp</button>
+        <button class="btn btn-outline btn-grow" type="submit" value="email" data-needs-items>{{ partial "icon.html" "mail" }} Send order by email</button>
+        {{ else }}
+        <p class="notice">{{ partial "icon.html" "clock" }} Online ordering opens soon. Thank you for your patience!</p>
+        {{ end }}
+      </div>
+      <p class="form-status" data-form-status role="status"></p>
+    </form>
+
+    <aside class="panel summary" aria-label="Order summary">
+      <h2>Order summary</h2>
+      <div data-summary-items></div>
+      <dl class="totals">
+        <div><dt>Subtotal</dt><dd data-summary-subtotal>—</dd></div>
+        <div><dt>Delivery</dt><dd data-summary-delivery>—</dd></div>
+        <div class="grand"><dt>Total</dt><dd data-summary-total>—</dd></div>
+      </dl>
+      <p class="small muted" data-summary-note></p>
+    </aside>
+  </div>
+
+  <div class="container">
+    <div class="panel order-done" data-order-done hidden>
+      {{ partial "icon.html" "check" }}
+      <h2>Thank you! Your order has been sent.</h2>
+      <p>Your order reference is <strong data-order-ref></strong>. We'll contact you shortly to confirm the total, payment and delivery.</p>
+      <a class="btn btn-primary" href="{{ "/products/" | relURL }}">Continue shopping</a>
+    </div>
+  </div>
+</section>
+{{ end }}

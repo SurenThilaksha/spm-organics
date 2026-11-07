@@ -1,0 +1,40 @@
+{{ $b := hugo.Data.business }}
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      {{ partial "logo.html" (dict "id" "ftr" "class" "footer-logo" "light" true "tagline" $b.tagline) }}
+      <p>{{ $b.motto }}</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        {{ range where site.RegularPages "Section" "products" }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}
+        <li><a href="{{ "/cart/" | relURL }}">Your cart</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="{{ "/about/" | relURL }}">Our story</a></li>
+        <li><a href="{{ "/#faq" | relURL }}">FAQ</a></li>
+        <li><a href="{{ "/contact/" | relURL }}">Contact &amp; wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Get in touch</h4>
+      <ul class="footer-contact">
+        {{ if $b.contact.enabled }}
+        <li><a href="https://wa.me/{{ $b.contact.whatsapp }}" target="_blank" rel="noopener">{{ partial "icon.html" "whatsapp" }} WhatsApp</a></li>
+        <li><a href="tel:{{ replace $b.contact.phone " " "" }}">{{ partial "icon.html" "phone" }} {{ $b.contact.phone }}</a></li>
+        <li><a href="mailto:{{ $b.contact.email }}">{{ partial "icon.html" "mail" }} {{ $b.contact.email }}</a></li>
+        {{ end }}
+        <li>{{ partial "icon.html" "pin" }} {{ $b.contact.location }}</li>
+        <li>{{ partial "icon.html" "clock" }} {{ $b.contact.hours }}</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer-base">
+    <p>© {{ now.Year }} {{ $b.name }}. All rights reserved.</p>
+    <p class="credits">{{ range $i, $c := $b.credits }}{{ if $i }} · {{ end }}<a href="{{ $c.url }}" target="_blank" rel="noopener">{{ $c.text }}</a>{{ end }}</p>
+  </div>
+</footer>

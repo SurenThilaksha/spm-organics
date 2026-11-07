@@ -1,0 +1,21 @@
+{{- /* Responsive WebP image from assets/.
+  Usage: partial "img.html" (dict "src" "images/x.jpg" "alt" "..." "sizes" "100vw" "class" "" "eager" false "crop" "1600x1200 Center") */ -}}
+{{- $img := resources.Get .src -}}
+{{- with $img -}}
+  {{- with $.crop }}{{ $img = $img.Crop . }}{{ end -}}
+  {{- $widths := slice 480 800 1200 1800 -}}
+  {{- $set := slice -}}
+  {{- range $widths -}}
+    {{- if le . $img.Width -}}
+      {{- $r := $img.Process (printf "resize %dx webp q78" .) -}}
+      {{- $set = $set | append (printf "%s %dw" $r.RelPermalink .) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $mid := $img.Process "resize 1200x webp q78" -}}
+<img src="{{ $mid.RelPermalink }}" srcset="{{ delimit $set ", " }}" sizes="{{ $.sizes | default "100vw" }}"
+     width="{{ $mid.Width }}" height="{{ $mid.Height }}" alt="{{ $.alt }}"
+     {{- with $.class }} class="{{ . }}"{{ end }}
+     {{- if $.eager }} fetchpriority="high"{{ else }} loading="lazy" decoding="async"{{ end }}>
+{{- else -}}
+  {{- warnf "img.html: image %q not found in assets/" .src -}}
+{{- end -}}

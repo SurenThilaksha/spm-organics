@@ -1,0 +1,48 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+{{ $v := .Params.variants }}
+<section class="section product">
+  <div class="container">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="{{ "/" | relURL }}">Home</a> / <a href="{{ "/products/" | relURL }}">Shop</a> / <span>{{ .Title }}</span></nav>
+    <div class="product-grid">
+      <div class="gallery">
+        <div class="gallery-main">{{ partial "pack.html" (dict "id" "pdp" "name" .Title "size" (index $v 1).size "color" .Params.pack_color) }}</div>
+        <div class="gallery-photo">{{ partial "img.html" (dict "src" .Params.photo "alt" "Fresh curry leaves" "sizes" "(max-width: 900px) 100vw, 45vw") }}</div>
+      </div>
+      <div class="product-info">
+        <p class="kicker">{{ $b.name }}</p>
+        <h1>{{ .Title }}</h1>
+        <p class="local">{{ .Params.local_name }}</p>
+        <p class="lead">{{ .Params.summary }}</p>
+        <ul class="chips">{{ range .Params.badges }}<li>{{ partial "icon.html" "check" }} {{ . }}</li>{{ end }}</ul>
+        {{ partial "buy-box.html" . }}
+        <ul class="assure">
+          <li>{{ partial "icon.html" "truck" }} Island-wide delivery in Sri Lanka</li>
+          <li>{{ partial "icon.html" "globe" }} Worldwide shipping — quoted after you order</li>
+          <li>{{ partial "icon.html" "shield" }} Single ingredient. Nothing added.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="details">
+      <section class="detail prose">
+        <h2>About this product</h2>
+        {{ .Content }}
+      </section>
+      <section class="detail">
+        <h2>How to use</h2>
+        <ul class="checklist">{{ range .Params.how_to_use }}<li>{{ partial "icon.html" "check" }} {{ . }}</li>{{ end }}</ul>
+      </section>
+      <section class="detail facts">
+        <h2>Product facts</h2>
+        <dl>
+          <dt>Ingredients</dt><dd>{{ .Params.ingredients }}</dd>
+          <dt>Origin</dt><dd>{{ .Params.origin }}</dd>
+          <dt>Pack sizes</dt><dd>{{ delimit (apply $v "index" "." "size") " · " }}</dd>
+          <dt>Storage</dt><dd>{{ .Params.storage }}</dd>
+        </dl>
+      </section>
+    </div>
+  </div>
+</section>
+{{ end }}

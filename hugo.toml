@@ -1,0 +1,14 @@
+baseURL = "https://example.org/"   # overridden automatically by the GitHub Pages workflow
+locale = "en-US"
+title = "SPM Organics | Pure Curry Leaves Powder from Sri Lanka"
+
+disableKinds = ["taxonomy", "term", "rss"]
+
+[params]
+  description = "SPM Organics – 100% natural, shade-dried curry leaves powder from Sri Lanka. No additives, small-batch, delivered island-wide and shipped worldwide."
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[minify]
+  minifyOutput = true

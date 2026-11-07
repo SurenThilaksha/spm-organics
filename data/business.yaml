@@ -1,0 +1,150 @@
+# ------------------------------------------------------------------
+#  SPM Organics — site-wide text and settings live here.
+#  Product details (sizes, prices, descriptions) live in content/products/.
+#  Edit, commit, push — the site redeploys automatically.
+#  Lines marked  # TODO  are placeholders — replace with real details.
+# ------------------------------------------------------------------
+
+name: SPM Organics
+tagline: Rooted in purity
+motto: Pure by nature. Honest by choice.
+intro: >-
+  Hand-picked Sri Lankan curry leaves, gently shade-dried and stone-ground into a
+  fragrant green powder. Nothing added, nothing taken away — just the leaf.
+
+hero_image: images/hero-curry-leaves.jpg
+
+contact:
+  # Set to true once phone / WhatsApp / email below are real.
+  # While false, the site hides call / WhatsApp / email links and the checkout
+  # buttons say "Online ordering opens soon".
+  enabled: false
+  phone: "+94 77 123 4567"            # TODO real number (shown on site)
+  whatsapp: "94771234567"             # TODO same number, digits only, with country code
+  email: "orders@spmorganics.lk"      # TODO real email — email orders are delivered here
+  location: "Sri Lanka"               # TODO town / district, e.g. "Kurunegala, Sri Lanka"
+  hours: "Mon – Sat, 8.00 am – 6.00 pm (Sri Lanka time)"   # TODO
+
+ordering:
+  default_currency: LKR               # LKR or USD. Visitors outside Sri Lanka see USD automatically.
+  # Email orders are sent through FormSubmit (free, no account). The very first
+  # order triggers an activation email to contact.email — click the link once.
+  email_service: "https://formsubmit.co/ajax/"
+  local_delivery:                     # TODO confirm your delivery charges
+    lkr: 450
+    usd: 1.5
+    free_over_lkr: 5000
+    free_over_usd: 17
+  international_note: International shipping is quoted after you order, based on weight and country.
+  payment_methods:
+    - id: cod
+      label: Cash on delivery
+      note: Sri Lanka only
+    - id: bank
+      label: Bank transfer
+      note: We send bank details with your order confirmation
+    - id: card
+      label: Card payment
+      note: Coming soon
+      disabled: true                  # switch on when online card payment is added
+
+trust:
+  - icon: leaf
+    label: 100% natural
+  - icon: shield
+    label: No additives or fillers
+  - icon: sun
+    label: Shade-dried, small batch
+  - icon: globe
+    label: Ships worldwide
+
+benefits:
+  - icon: sparkle
+    title: Rich in natural antioxidants
+    text: Curry leaves are naturally rich in plant compounds valued in traditional Sri Lankan and Ayurvedic cooking.
+  - icon: heart
+    title: A daily green boost
+    text: A spoonful adds the goodness of fresh leaves to rice, curries, soups and smoothies — all year round.
+  - icon: mortar
+    title: Authentic Sri Lankan flavour
+    text: That warm, citrusy, nutty aroma that makes home cooking taste like home.
+  - icon: package
+    title: Convenient & long-lasting
+    text: No more wilting leaves in the fridge. Stays fresh for months in its resealable pouch.
+
+process:
+  - title: Hand-picked
+    text: Young, healthy leaves picked by hand from trees grown without chemical sprays.
+  - title: Washed & sorted
+    text: Rinsed in clean water and sorted leaf by leaf — stems and damaged leaves removed.
+  - title: Shade-dried
+    text: Dried slowly away from direct sun to keep the deep green colour and natural oils.
+  - title: Stone-ground
+    text: Ground in small batches into a fine powder, then sieved for a smooth texture.
+  - title: Sealed fresh
+    text: Packed straight away in food-grade resealable pouches to lock in aroma.
+
+uses:
+  - title: Curries & dhal
+    text: Stir 1 tsp into the tempering or near the end of cooking.
+  - title: Rice & kiribath
+    text: Sprinkle over hot rice with a little ghee or coconut oil.
+  - title: Sambols & chutneys
+    text: Mix into coconut sambol or yoghurt for a green, fragrant twist.
+  - title: Drinks & smoothies
+    text: Add ½ tsp to buttermilk, warm water or your morning smoothie.
+
+story:
+  # Optional: a photo of your own (farm, family, kitchen) in assets/images/, e.g. images/our-family.jpg
+  # Leave empty to show the logo panel instead.
+  image: ""
+  image_alt: ""
+  heading: A family love for the humble curry leaf
+  paragraphs:   # TODO tell your own story in your own words
+    - >-
+      In every Sri Lankan kitchen, the curry leaf — karapincha — is the first thing to hit
+      the hot oil. Its aroma means a meal is on the way. SPM Organics began with a simple
+      wish: to share that everyday goodness, in its purest form, with families in Sri Lanka
+      and Sri Lankans and food lovers around the world.
+    - >-
+      We work in small batches, the way our parents did — picking, washing and drying by hand,
+      with no colours, preservatives or fillers. If it isn't pure leaf, it doesn't go in the pouch.
+  values:
+    - title: Purity
+      text: Single-ingredient products, nothing added.
+    - title: Honesty
+      text: Clear labels, fair prices, real answers.
+    - title: Care
+      text: Small batches, made by hand, packed with pride.
+
+order_steps:
+  - title: Add to cart
+    text: Choose your pack size and quantity.
+  - title: Send your order
+    text: Checkout by WhatsApp or email — no account needed.
+  - title: We confirm & deliver
+    text: We confirm the total and payment, then dispatch within 1–2 working days.   # TODO
+
+shipping:
+  - icon: truck
+    title: Within Sri Lanka
+    text: Island-wide courier delivery in 2–4 working days. Cash on delivery or bank transfer.   # TODO
+  - icon: globe
+    title: International
+    text: We ship worldwide. Tell us your country at checkout and we will quote the best shipping option.   # TODO
+
+faq:
+  - q: Is the powder 100% curry leaves?
+    a: Yes. The only ingredient is shade-dried curry leaves (Murraya koenigii). No salt, colour, preservatives or fillers.
+  - q: How should I store it?
+    a: Keep the pouch tightly sealed in a cool, dry place away from sunlight. Use a dry spoon. Best used within 12 months.   # TODO confirm shelf life
+  - q: How do I pay?
+    a: In Sri Lanka you can pay cash on delivery or by bank transfer. International customers pay by bank transfer for now — card payment is coming soon.   # TODO
+  - q: Do you ship outside Sri Lanka?
+    a: Yes. Place your order with your full address and we will reply with the shipping cost and delivery time for your country before you pay.
+  - q: Do you sell in bulk or wholesale?
+    a: Yes — shops, restaurants and distributors are welcome to contact us for bulk pricing.
+
+credits:
+  - text: "Curry leaf photos: Flocci Nivis, CC BY 4.0 · Sonja Pauen, CC BY 2.0 DE"
+    url: "https://commons.wikimedia.org/wiki/Category:Murraya_koenigii"

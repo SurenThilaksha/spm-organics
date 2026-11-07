@@ -1,0 +1,72 @@
+{{- $b := hugo.Data.business -}}
+<!doctype html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{- $title := cond .IsHome site.Title (printf "%s | %s" .Title $b.name) }}
+  {{- $desc := or .Params.summary .Description site.Params.description }}
+  <title>{{ $title }}</title>
+  <meta name="description" content="{{ $desc }}">
+  <meta property="og:title" content="{{ $title }}">
+  <meta property="og:description" content="{{ $desc }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ "brand/logo-original.jpg" | absURL }}">
+  <meta name="theme-color" content="#173b26">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+  {{ with resources.Get "css/main.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}">
+  {{ end }}
+</head>
+<body class="{{ if .IsHome }}is-home{{ else }}is-inner{{ end }}">
+  <a class="skip" href="#main">Skip to content</a>
+  {{ partial "header.html" . }}
+  <main id="main">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "footer.html" . }}
+
+  {{/* Slide-in cart */}}
+  <div class="drawer-backdrop" data-cart-close hidden></div>
+  <aside class="drawer" id="cart-drawer" aria-label="Your cart" aria-hidden="true">
+    <header class="drawer-head">
+      <h2>Your cart</h2>
+      <button type="button" class="icon-btn" data-cart-close aria-label="Close cart">{{ partial "icon.html" "x" }}</button>
+    </header>
+    <div class="drawer-body" data-cart-list></div>
+    <footer class="drawer-foot" data-cart-foot>
+      <div class="drawer-total"><span>Subtotal</span><strong data-cart-subtotal></strong></div>
+      <p class="small muted">Delivery is calculated at checkout.</p>
+      <a class="btn btn-primary btn-block" href="{{ "/cart/" | relURL }}">Checkout {{ partial "icon.html" "arrow" }}</a>
+    </footer>
+  </aside>
+  <div class="toast" role="status" aria-live="polite" data-toast></div>
+
+  {{ if $b.contact.enabled }}
+  <a class="wa-float" href="https://wa.me/{{ $b.contact.whatsapp }}" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">{{ partial "icon.html" "whatsapp" }}</a>
+  {{ end }}
+
+  {{- /* Product catalogue + shop settings for the cart script */ -}}
+  {{- $catalog := dict -}}
+  {{- range where site.RegularPages "Section" "products" -}}
+    {{- $catalog = merge $catalog (dict .File.ContentBaseName (dict "name" .Title "url" .RelPermalink "color" (.Params.pack_color | default "#2f6b3a") "variants" .Params.variants)) -}}
+  {{- end -}}
+  {{- $shop := dict
+      "catalog" $catalog
+      "enabled" $b.contact.enabled
+      "whatsapp" $b.contact.whatsapp
+      "email" $b.contact.email
+      "name" $b.name
+      "ordering" $b.ordering
+      "cartUrl" ("/cart/" | relURL)
+  -}}
+  <script id="shop-data" type="application/json">{{ $shop | jsonify | safeJS }}</script>
+  {{ with resources.Get "js/main.js" | minify | fingerprint }}
+  <script src="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" defer></script>
+  {{ end }}
+</body>
+</html>

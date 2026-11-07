@@ -1,0 +1,22 @@
+{{- /* Size picker + quantity + add to cart for one product page. Context: the product Page. */ -}}
+{{- $p := . -}}
+{{- $first := index $p.Params.variants 0 -}}
+<form class="buy" data-buy data-id="{{ $p.File.ContentBaseName }}">
+  <fieldset class="sizes">
+    <legend>Pack size</legend>
+    {{ range $i, $v := $p.Params.variants }}
+    <label class="size">
+      <input type="radio" name="size" value="{{ $v.size }}" data-lkr="{{ $v.lkr }}" data-usd="{{ $v.usd }}" {{ if eq $i 0 }}checked{{ end }}>
+      <span><strong>{{ $v.size }}</strong>{{ partial "price.html" $v }}</span>
+    </label>
+    {{ end }}
+  </fieldset>
+  <div class="buy-row">
+    <div class="qty" data-qty>
+      <button type="button" data-step="-1" aria-label="Decrease quantity">{{ partial "icon.html" "minus" }}</button>
+      <input type="number" name="qty" value="1" min="1" max="99" inputmode="numeric" aria-label="Quantity">
+      <button type="button" data-step="1" aria-label="Increase quantity">{{ partial "icon.html" "plus" }}</button>
+    </div>
+    <button class="btn btn-primary btn-grow" type="submit">{{ partial "icon.html" "cart" }} Add to cart · <span data-buy-total>{{ partial "price.html" $first }}</span></button>
+  </div>
+</form>

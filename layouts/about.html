@@ -1,0 +1,59 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+<section class="page-hero">
+  <div class="container">
+    <p class="kicker">{{ $b.tagline }}</p>
+    <h1>{{ .Title }}</h1>
+    <p class="lead">{{ $b.motto }}</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container story-grid">
+    {{ partial "story-media.html" (dict "id" "about") }}
+    <div class="reveal">
+      <h2>{{ $b.story.heading }}</h2>
+      {{ range $b.story.paragraphs }}<p>{{ . }}</p>{{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream">
+  <div class="container">
+    <header class="section-head">
+      <p class="kicker">What we stand for</p>
+      <h2>Our <em>promise</em></h2>
+    </header>
+    <div class="values">
+      {{ range $b.story.values }}
+      <article class="value reveal">
+        <span class="value-mark">{{ partial "icon.html" "leaf" }}</span>
+        <h3>{{ .title }}</h3><p>{{ .text }}</p>
+      </article>
+      {{ end }}
+    </div>
+  </div>
+</section>
+
+<section class="section section-dark process-section">
+  <div class="process-bg">{{ partial "img.html" (dict "src" "images/curry-leaves-tree.jpg" "alt" "" "sizes" "100vw") }}</div>
+  <div class="container">
+    <header class="section-head">
+      <p class="kicker">How we make it</p>
+      <h2>From tree to pouch, <em>by hand</em></h2>
+    </header>
+    <ol class="process">
+      {{ range $i, $s := $b.process }}
+      <li class="reveal"><span class="process-n">{{ printf "%02d" (add $i 1) }}</span><h3>{{ $s.title }}</h3><p>{{ $s.text }}</p></li>
+      {{ end }}
+    </ol>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container cta-inner reveal">
+    <h2>Taste the difference <em>purity</em> makes</h2>
+    <a class="btn btn-light" href="{{ "/products/" | relURL }}">{{ partial "icon.html" "cart" }} Shop now</a>
+  </div>
+</section>
+{{ end }}

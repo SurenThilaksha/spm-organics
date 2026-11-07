@@ -1,0 +1,2 @@
+{{- /* A price that JS re-renders in the visitor's currency. Context: dict "lkr" n "usd" n */ -}}
+<span class="price" data-lkr="{{ .lkr }}" data-usd="{{ .usd }}">Rs {{ lang.FormatNumber 0 .lkr }}</span>

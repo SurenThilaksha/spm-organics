@@ -1,0 +1,55 @@
+{{ define "main" }}
+{{ $b := hugo.Data.business }}
+{{ $c := $b.contact }}
+<section class="page-hero">
+  <div class="container">
+    <p class="kicker">Say hello</p>
+    <h1>{{ .Title }}</h1>
+    <p class="lead">{{ .Description }}</p>
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container contact-grid">
+    <div class="contact-info">
+      {{ if $c.enabled }}
+      <a class="contact-card" href="https://wa.me/{{ $c.whatsapp }}" target="_blank" rel="noopener">{{ partial "icon.html" "whatsapp" }}<div><strong>WhatsApp</strong><span>Fastest reply</span></div></a>
+      <a class="contact-card" href="tel:{{ replace $c.phone " " "" }}">{{ partial "icon.html" "phone" }}<div><strong>{{ $c.phone }}</strong><span>Call us</span></div></a>
+      <a class="contact-card" href="mailto:{{ $c.email }}">{{ partial "icon.html" "mail" }}<div><strong>{{ $c.email }}</strong><span>Email us</span></div></a>
+      {{ end }}
+      <div class="contact-card">{{ partial "icon.html" "pin" }}<div><strong>{{ $c.location }}</strong><span>Ships island-wide &amp; worldwide</span></div></div>
+      <div class="contact-card">{{ partial "icon.html" "clock" }}<div><strong>Opening hours</strong><span>{{ $c.hours }}</span></div></div>
+      <div class="wholesale">
+        <h3>Wholesale &amp; bulk orders</h3>
+        <p>Shops, restaurants, Ayurvedic centres and overseas distributors — ask us for bulk pricing and private-label options.</p>
+      </div>
+    </div>
+
+    <form class="panel form" id="contact-form" data-contact novalidate>
+      <h2>Send us a message</h2>
+      <div class="field-row">
+        <label>Your name<input name="name" required autocomplete="name"></label>
+        <label>Email or WhatsApp<input name="reply" required autocomplete="email"></label>
+      </div>
+      <label>Topic
+        <select name="topic">
+          <option>Question about a product</option>
+          <option>Help with my order</option>
+          <option>Wholesale / bulk order</option>
+          <option>Something else</option>
+        </select>
+      </label>
+      <label>Message<textarea name="message" rows="5" required></textarea></label>
+      {{ if $c.enabled }}
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" value="whatsapp">{{ partial "icon.html" "whatsapp" }} Send on WhatsApp</button>
+        <button class="btn btn-outline" type="submit" value="email">{{ partial "icon.html" "mail" }} Send by email</button>
+      </div>
+      {{ else }}
+      <p class="notice">{{ partial "icon.html" "clock" }} Our contact details will be added here very soon.</p>
+      {{ end }}
+      <p class="form-status" data-form-status role="status"></p>
+    </form>
+  </div>
+</section>
+{{ end }}
